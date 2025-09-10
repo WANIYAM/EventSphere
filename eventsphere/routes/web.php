@@ -27,5 +27,11 @@ Route::get('/organizer/dashboard', function () {
 Route::get('/student/dashboard', function () {
     return view('student.dashboard');
 })->name('student.dashboard');
-
+Route::get('/', function () {
+    $head_title = "Home || envens || envens PHP Template";
+    return view('home', compact('head_title'));
+});
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
 require __DIR__.'/auth.php';

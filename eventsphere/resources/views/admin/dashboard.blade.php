@@ -1,3 +1,10 @@
-<x-app-layout>
-    <h1 class="text-2xl font-bold">Welcome, Admin!</h1>
-</x-app-layout>
+@extends('admin.layout')
+
+@section('title', 'Admin Dashboard')
+
+@section('content')
+
+
+    <h1 c>Welcome, Admin!</h1>
+
+@endsection
