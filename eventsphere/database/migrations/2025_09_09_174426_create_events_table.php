@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->string('category'); // cultural, technical, sports...
+            $table->string('category');
             $table->date('date');
             $table->time('time');
             $table->string('venue');
             $table->unsignedBigInteger('organizer_id');
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'rejected', 'canceled'])->default('pending');
             $table->integer('max_participants')->nullable();
             $table->timestamps();
 

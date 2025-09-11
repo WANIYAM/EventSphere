@@ -77,6 +77,13 @@ class User extends Authenticatable
         return $this->hasMany(Registration::class, 'student_id');
     }
 
+    public function registeredEvents()
+    {
+        return $this->belongsToMany(Event::class, 'registrations', 'student_id', 'event_id')
+            ->withPivot('status')
+            ->withTimestamps();
+    }
+
     public function media()
     {
         return $this->hasMany(MediaGallery::class, 'uploaded_by');
@@ -105,5 +112,10 @@ class User extends Authenticatable
     public function sharedEvents()
     {
         return $this->hasMany(EventShareLog::class);
+    }
+
+    public function approvedEvents()
+    {
+        return $this->hasMany(Event::class, 'approved_by');
     }
 }

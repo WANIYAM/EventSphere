@@ -245,7 +245,8 @@
                                     <img class="img-80 img-radius" src="{{ asset('assets/images/avatar-4.jpg') }}"
                                         alt="User-Profile-Image">
                                     <div class="user-details">
-                                        <span id="more-details">{{ Auth::user()->name }}<i class="fa fa-caret-down"></i></span>
+                                        <span id="more-details">{{ Auth::user()->name }}<i
+                                                class="fa fa-caret-down"></i></span>
                                     </div>
                                 </div>
 
@@ -255,14 +256,14 @@
                                             <a href="user-profile.html"><i class="ti-user"></i>View Profile</a>
                                             <a href="#!"><i class="ti-settings"></i>Settings</a>
                                             <form method="POST" action="{{ route('logout') }}">
-                                            @csrf
-                                            <button type="submit" class="btn btn-outline-pink">Logout</button>
-                                        </form>
+                                                @csrf
+                                                <button type="submit" class="btn btn-outline-pink">Logout</button>
+                                            </form>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
-                            
+
                             <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">Layout</div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="">
@@ -272,13 +273,23 @@
                                         <span class="pcoded-mcaret"></span>
                                     </a>
                                 </li>
-                                <li class="">
-                                    <a href="index.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Event</span>
+                                <li>
+                                    <a href="{{ route('student.events.index') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-calendar"></i></span>
+                                        <span class="pcoded-mtext" data-i18n="nav.events.available">Available
+                                            Events</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
                                 </li>
+
+                                <li>
+                                    <a href="{{ route('student.my-registrations') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-list"></i></span>
+                                        <span class="pcoded-mtext" data-i18n="nav.events.my">My Registrations</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                </li>
+
                                 <li class="">
                                     <a href="index.html" class="waves-effect waves-dark">
                                         <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
@@ -335,14 +346,14 @@
                                         <span class="pcoded-mcaret"></span>
                                     </a>
                                 </li>
-                               
+
                             </ul>
-                            
-                           
 
-                            
 
-                            
+
+
+
+
                     </nav>
                     <div class="pcoded-content">
                         <!-- Page-header start -->

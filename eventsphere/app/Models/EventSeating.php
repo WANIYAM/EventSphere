@@ -10,4 +10,14 @@ class EventSeating extends Model
     {
         return $this->belongsTo(Event::class);
     }
+
+    public function remainingSeats()
+    {
+        return $this->total_seats - $this->seats_booked;
+    }
+
+    public function isFull()
+    {
+        return $this->remainingSeats() <= 0;
+    }
 }

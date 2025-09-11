@@ -1,10 +1,54 @@
 <?php
 
-namespace App\Http\Controllers;
+// app/Http/Controllers/Admin/DashboardController.php
 
-use Illuminate\Http\Request;
+namespace App\Http\Controllers\Admin;
 
-class AdminController extends Controller
+use App\Http\Controllers\Controller;
+use App\Models\Event;
+use App\Models\Notification;
+use App\Models\Ticket;
+use App\Models\User;
+
+class DashboardController extends Controller
 {
-    //
+    public function index()
+    {
+        // Top stats
+        $totalEvents = Event::count();
+        $totalUsers = User::count();
+        $pendingEvents = Event::where('status', 'pending')->count();
+        $ticketsSold = Ticket::sum('quantity');
+
+        // Recent events (latest 5)
+        $recentEvents = Event::with('organizer')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        // Notifications (latest 3)
+        $notifications = Notification::latest()
+            ->take(3)
+            ->get();
+
+        // Event status stats
+        $approved = Event::where('status', 'approved')->count();
+        $rejected = Event::where('status', 'rejected')->count();
+        $canceled = Event::where('status', 'canceled')->count();
+        $total = $totalEvents > 0 ? $totalEvents : 1; // prevent divide by zero
+
+        return view('admin.dashboard', compact(
+            'totalEvents',
+            'totalUsers',
+            'pendingEvents',
+            'ticketsSold',
+            'recentEvents',
+            'notifications',
+            'approved',
+            'rejected',
+            'canceled',
+            'total'
+        ));
+
+    }
 }

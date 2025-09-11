@@ -140,7 +140,7 @@
                                 </a>
                             </li>
                         </ul>
-                        <ul class="nav-right">
+                        < <ul class="nav-right">
                             <li class="header-notification">
                                 <a href="#!" class="waves-effect waves-light">
                                     <i class="ti-bell"></i>
@@ -157,7 +157,7 @@
                                                 src="{{ asset('assets/images/avatar-2.jpg') }}"
                                                 alt="Generic placeholder image">
                                             <div class="media-body">
-                                                <h5 class="notification-user">{{ Auth::user()->name }}</h5>
+                                                <h5 class="notification-user">John Doe</h5>
                                                 <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer
                                                     elit.</p>
                                                 <span class="notification-time">30 minutes ago</span>
@@ -206,10 +206,9 @@
                                         </a>
                                     </li>
                                     <li class="waves-effect waves-light">
-                                       <form method="POST" action="#">
-                                            @csrf
-                                            <button type="submit" class="btn btn-outline-pink">Profile</button>
-                                        </form>
+                                        <a href="user-profile.html">
+                                            <i class="ti-user"></i> Profile
+                                        </a>
                                     </li>
                                     <li class="waves-effect waves-light">
                                         <a href="email-inbox.html">
@@ -229,9 +228,9 @@
                                         </form>
                                     </li>
                             </li>
-                        </ul>
-                        </li>
-                        </ul>
+                            </ul>
+                            </li>
+                            </ul>
                     </div>
                 </div>
             </nav>
@@ -250,9 +249,9 @@
                                     </div>
                                 </div>
 
-                                
+
                             </div>
-                            
+
                             <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">Layout</div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="">
@@ -262,77 +261,101 @@
                                         <span class="pcoded-mcaret"></span>
                                     </a>
                                 </li>
-                                <li class="">
-                                    <a href="index.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Event Managment</span>
+                                <li
+                                    class="pcoded-hasmenu {{ request()->is('admin/events*') ? 'active pcoded-trigger' : '' }}">
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-calendar"></i></span>
+                                        <span class="pcoded-mtext">Event Management</span>
+                                    </a>
+                                    <ul class="pcoded-submenu">
+                                        <li class="{{ request()->is('admin/events') ? 'active' : '' }}">
+                                            <a href="{{ url('/admin/events') }}">All Events</a>
+                                        </li>
+                                        <li class="{{ request()->is('admin/events/pending') ? 'active' : '' }}">
+                                            <a href="{{ url('/admin/events/pending') }}">Pending Events</a>
+                                        </li>
+                                        <li class="{{ request()->is('admin/events/approved') ? 'active' : '' }}">
+                                            <a href="{{ url('/admin/events/approved') }}">Approved Events</a>
+                                        </li>
+                                        <li class="{{ request()->is('admin/events/rejected') ? 'active' : '' }}">
+                                            <a href="{{ url('/admin/events/rejected') }}">Rejected Events</a>
+                                        </li>
+                                        <li class="{{ request()->is('admin/events/canceled') ? 'active' : '' }}">
+                                            <a href="{{ url('/admin/events/canceled') }}">Canceled Events</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="{{ request()->is('admin/users*') ? 'active' : '' }}">
+                                    <a href="{{ url('/users') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-user"></i><b>UM</b></span>
+                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">User Management</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
                                 </li>
-                                <li class="">
-                                    <a href="index.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">User Managment</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a href="index.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Review Event</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a href="index.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Feedback</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a href="index.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Gallery</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a href="index.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Announcements</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a href="index.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Reports</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a href="index.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Venue</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a href="index.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Slots</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
-                               
                             </ul>
-                            
-                           
+                            </li>
 
-                            
 
-                            
+
+
+                            <li class="">
+                                <a href="index.html" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                    <span class="pcoded-mtext" data-i18n="nav.dash.main">Review Event</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.feedback.index') }}" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-comments"></i></span>
+                                    <span class="pcoded-mtext">Feedback</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+
+                            <li class="">
+                                <a href="index.html" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                    <span class="pcoded-mtext" data-i18n="nav.dash.main">Gallery</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="index.html" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                    <span class="pcoded-mtext" data-i18n="nav.dash.main">Announcements</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="index.html" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                    <span class="pcoded-mtext" data-i18n="nav.dash.main">Reports</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="index.html" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                    <span class="pcoded-mtext" data-i18n="nav.dash.main">Venue</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="index.html" class="waves-effect waves-dark">
+                                    <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                    <span class="pcoded-mtext" data-i18n="nav.dash.main">Slots</span>
+                                    <span class="pcoded-mcaret"></span>
+                                </a>
+                            </li>
+
+                            </ul>
+
+
+
+
+
+
                     </nav>
                     <div class="pcoded-content">
                         <!-- Page-header start -->

@@ -47,6 +47,14 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+       if ($user->isAdmin()) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        if ($user->isOrganizer()) {
+            return redirect()->route('organizer.dashboard');
+        }
+
+        return redirect()->route('student.dashboard'); // default
     }
 }

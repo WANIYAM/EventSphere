@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('event_seating', function (Blueprint $table) {
+        Schema::create('event_seatings', function (Blueprint $table) {
             $table->unsignedBigInteger('event_id')->primary();
             $table->string('venue');
             $table->integer('total_seats');
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('event_seating');
+        Schema::dropIfExists('event_seatings');
     }
 };

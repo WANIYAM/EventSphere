@@ -3,18 +3,34 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class Event extends Model
 {
+     use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'description',
+        'category',
+        'date',
+        'time',
+        'venue',
+        'organizer_id',
+        'status',
+        'max_participants',
+    ];
     public function organizer()
     {
         return $this->belongsTo(User::class, 'organizer_id');
     }
 
     public function registrations()
-    {
-        return $this->hasMany(Registration::class);
-    }
+{
+    return $this->hasMany(Registration::class);
+}
+
 
     public function attendance()
     {
@@ -54,5 +70,9 @@ class Event extends Model
     public function shareLogs()
     {
         return $this->hasMany(EventShareLog::class);
+    }
+   public function isApproved()
+    {
+        return $this->status === 'approved';
     }
 }

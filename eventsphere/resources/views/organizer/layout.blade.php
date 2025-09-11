@@ -245,92 +245,122 @@
                                     <img class="img-80 img-radius" src="{{ asset('assets/images/avatar-4.jpg') }}"
                                         alt="User-Profile-Image">
                                     <div class="user-details">
-                                        <span id="more-details">John Doe<i class="fa fa-caret-down"></i></span>
+                                        <span id="more-details">{{ auth()->user()->name }}<i
+                                                class="fa fa-caret-down"></i></span>
                                     </div>
                                 </div>
 
                                 <div class="main-menu-content">
                                     <ul>
                                         <li class="more-details">
-                                            <a href="user-profile.html"><i class="ti-user"></i>View Profile</a>
-                                            <a href="#!"><i class="ti-settings"></i>Settings</a>
+                                            <a href="{{ route('profile.edit') }}"><i class="ti-user"></i> View
+                                                Profile</a>
+                                            <a href="#!"><i class="ti-settings"></i> Settings</a>
                                             <form method="POST" action="{{ route('logout') }}">
-                                            @csrf
-                                            <button type="submit" class="btn btn-outline-pink">Logout</button>
-                                        </form>
+                                                @csrf
+                                                <button type="submit"
+                                                    class="btn btn-outline-pink w-100">Logout</button>
+                                            </form>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
-                            
-                            <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">Layout</div>
+
+                            <div class="pcoded-navigation-label">Main</div>
                             <ul class="pcoded-item pcoded-left-item">
-                                <li class="">
-                                    <a href="index.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Dashboard</span>
-                                        <span class="pcoded-mcaret"></span>
+                                <li class="{{ request()->routeIs('organizer.dashboard') ? 'active' : '' }}">
+                                    <a href="{{ route('organizer.dashboard') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-home"></i></span>
+                                        <span class="pcoded-mtext">Dashboard</span>
                                     </a>
                                 </li>
-                                <li class="">
-                                    <a href="index.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Manage Event</span>
-                                        <span class="pcoded-mcaret"></span>
+
+                                <li class="{{ request()->routeIs('organizer.events.create') ? 'active' : '' }}">
+                                    <a href="{{ route('organizer.events.create') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-pencil-alt"></i></span>
+                                        <span class="pcoded-mtext">Create Event</span>
                                     </a>
                                 </li>
-                                <li class="">
-                                    <a href="index.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">User Managment</span>
-                                        <span class="pcoded-mcaret"></span>
+
+                                <li
+                                    class="pcoded-hasmenu {{ request()->is('organizer/events*') && !request()->is('organizer/events/create') ? 'active pcoded-trigger' : '' }}">
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-list"></i></span>
+                                        <span class="pcoded-mtext">My Events</span>
+                                    </a>
+                                    <ul class="pcoded-submenu">
+                                        <li class="{{ request()->is('organizer/events') ? 'active' : '' }}">
+                                            <a href="{{ route('organizer.events.index') }}"
+                                                class="waves-effect waves-dark">
+                                                <span class="pcoded-mtext">All My Events</span>
+                                            </a>
+                                        </li>
+                                        <li class="{{ request()->is('organizer/events/pending') ? 'active' : '' }}">
+                                            <a href="{{ route('organizer.events.pending') }}"
+                                                class="waves-effect waves-dark">
+                                                <span class="pcoded-mtext">Pending Events</span>
+                                            </a>
+                                        </li>
+                                        <li class="{{ request()->is('organizer/events/approved') ? 'active' : '' }}">
+                                            <a href="{{ route('organizer.events.approved') }}"
+                                                class="waves-effect waves-dark">
+                                                <span class="pcoded-mtext">Approved Events</span>
+                                            </a>
+                                        </li>
+                                        <li class="{{ request()->is('organizer/events/rejected') ? 'active' : '' }}">
+                                            <a href="{{ route('organizer.events.rejected') }}"
+                                                class="waves-effect waves-dark">
+                                                <span class="pcoded-mtext">Rejected Events</span>
+                                            </a>
+                                        </li>
+                                        <li class="{{ request()->is('organizer/events/canceled') ? 'active' : '' }}">
+                                            <a href="{{ route('organizer.events.canceled') }}"
+                                                class="waves-effect waves-dark">
+                                                <span class="pcoded-mtext">Canceled Events</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="{{ request()->is('organizer/registrations*') ? 'active' : '' }}">
+                                    <a href="{{ route('organizer.registrations.index') }}"
+                                        class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-clipboard"></i></span>
+                                        <span class="pcoded-mtext">Registrations</span>
                                     </a>
                                 </li>
-                                <li class="">
-                                    <a href="index.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Registrations</span>
-                                        <span class="pcoded-mcaret"></span>
+
+                                <li class="{{ request()->is('organizer/attendance*') ? 'active' : '' }}">
+                                    <a href="#" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-check-box"></i></span>
+                                        <span class="pcoded-mtext">Attendance</span>
                                     </a>
                                 </li>
-                                <li class="">
-                                    <a href="index.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Attendance</span>
-                                        <span class="pcoded-mcaret"></span>
+
+                                <li class="{{ request()->is('organizer/certificates*') ? 'active' : '' }}">
+                                    <a href="#" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-certificate"></i></span>
+                                        <span class="pcoded-mtext">Certificates</span>
                                     </a>
                                 </li>
-                                <li class="">
-                                    <a href="index.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Certificates</span>
-                                        <span class="pcoded-mcaret"></span>
+
+                                <li class="{{ request()->is('organizer/gallery*') ? 'active' : '' }}">
+                                    <a href="#" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-image"></i></span>
+                                        <span class="pcoded-mtext">Gallery Management</span>
                                     </a>
                                 </li>
-                                <li class="">
-                                    <a href="index.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Gallery Managment</span>
-                                        <span class="pcoded-mcaret"></span>
+
+                                <li class="{{ request()->is('organizer/reports*') ? 'active' : '' }}">
+                                    <a href="#" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-bar-chart"></i></span>
+                                        <span class="pcoded-mtext">Reports</span>
                                     </a>
                                 </li>
-                                <li class="">
-                                    <a href="index.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Reports</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
-                                
-                               
                             </ul>
-                            
-                           
-
-                            
-
-                            
+                        </div>
                     </nav>
+
                     <div class="pcoded-content">
                         <!-- Page-header start -->
                         <div class="page-header">
