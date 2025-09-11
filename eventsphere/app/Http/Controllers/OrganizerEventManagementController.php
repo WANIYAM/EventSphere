@@ -12,7 +12,12 @@ class OrganizerEventManagementController extends Controller
     // List all events for this organizer
     public function index()
     {
-        $events = Event::where('organizer_id', Auth::id())->latest()->get();
+        $events = Event::withCount(['registrations as confirmed_count' => function ($q) {
+            $q->where('status', 'confirmed');
+        }])
+        ->where('organizer_id', Auth::id())
+        ->latest()
+        ->get();
         return view('organizer.events.index', compact('events'));
     }
 
@@ -101,28 +106,40 @@ class OrganizerEventManagementController extends Controller
         $event->delete(); // Seating will cascade
         return back()->with('success', 'Event deleted successfully!');
     }
-    // Filter events by status
-public function status($status = null)
-{
-    $query = Event::where('organizer_id', auth()->id());
 
-    if ($status && in_array($status, ['pending','approved','rejected','canceled'])) {
-        $query->where('status', $status);
+    // Filter events by status
+    public function status(Request $request)
+    {
+        $status = $request->get('status');
+
+        $query = Event::withCount(['registrations as confirmed_count' => function ($q) {
+            $q->where('status', 'confirmed');
+        }])
+        ->where('organizer_id', auth()->id());
+
+        if ($status && in_array($status, ['pending','approved','rejected','canceled'])) {
+            $query->where('status', $status);
+        }
+
+        $events = $query->orderBy('date')->get();
+
+        return view('organizer.events.index', compact('events'));
     }
 
-    $events = $query->orderBy('date')->get();
+    // List participants for an event
+    public function participants($eventId)
+    {
+        $event = Event::with('registrations.student')
+            ->where('organizer_id', auth()->id())
+            ->findOrFail($eventId);
 
-    return view('organizer.events.index', compact('events'));
-}
+        return view('organizer.events.participants', compact('event'));
+    }
 
-// List participants for an event
-public function participants($eventId)
-{
-    $event = Event::with('registrations.student')
-        ->where('organizer_id', auth()->id())
-        ->findOrFail($eventId);
-
-    return view('organizer.events.participants', compact('event'));
-}
-
+    // Show single event details (needed for resource controller completeness)
+    public function show($id)
+    {
+        $event = Event::where('organizer_id', auth()->id())->findOrFail($id);
+        return view('organizer.events.index', compact('event'));
+    }
 }

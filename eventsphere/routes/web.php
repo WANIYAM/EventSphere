@@ -43,21 +43,7 @@ use App\Http\Controllers\PublicEventController;
 // Public
 Route::get('/events', [PublicEventController::class, 'index']);
 
-// Organizer
-Route::get('/organizer/events/create', [OrganizerEventController::class, 'create']);
-Route::post('/organizer/events', [OrganizerEventController::class, 'store']);
-Route::get('/organizer/events/mine', [OrganizerEventController::class, 'myEvents']);
-Route::get('/organizer/events/{id}/edit', [OrganizerEventController::class, 'edit']);
-Route::post('/organizer/events/{id}/update', [OrganizerEventController::class, 'update']);
-Route::post('/organizer/events/{id}/cancel', [OrganizerEventController::class, 'cancel']);
-Route::get('/organizer/events', [OrganizerEventController::class, 'index']);
-Route::get('/organizer/events/create', [OrganizerEventController::class, 'create']);
-Route::post('/organizer/events/store', [OrganizerEventController::class, 'store']);
-Route::get('/organizer/events/mine', [OrganizerEventController::class, 'index']); // all events
-Route::get('/organizer/events/pending', [OrganizerEventController::class, 'pending']);
-Route::get('/organizer/events/approved', [OrganizerEventController::class, 'approved']);
-Route::get('/organizer/events/rejected', [OrganizerEventController::class, 'rejected']);
-Route::get('/organizer/events/canceled', [OrganizerEventController::class, 'canceled']);
+// Organizer routes cleaned up - using OrganizerEventManagementController for resource routes
 Route::get('/events/{id}/participants', [OrganizerRegistrationController::class, 'participants'])->name('organizer.registrations.participants');
 Route::post('/registrations/{id}/approve', [OrganizerRegistrationController::class, 'approve'])->name('organizer.registrations.approve');
 Route::post('/registrations/{id}/reject', [OrganizerRegistrationController::class, 'reject'])->name('organizer.registrations.reject');
@@ -144,7 +130,7 @@ Route::prefix('organizer')->name('organizer.')->middleware('auth')->group(functi
     Route::resource('events', OrganizerEventManagementController::class);
 
     // Status filter
-    Route::get('events/status/{status?}', [OrganizerEventManagementController::class, 'status'])
+    Route::get('events/status', [OrganizerEventManagementController::class, 'status'])
         ->name('events.status');
 
     // Participants list
@@ -173,14 +159,8 @@ Route::prefix('organizer/registrations')->middleware('auth')->name('organizer.re
     Route::get('/reject/{id}', [OrganizerRegistrationController::class, 'reject'])->name('reject');
 });
 
-// Organizer routes
+// Organizer routes - removed conflicting event routes, keeping registration routes
 Route::prefix('organizer')->name('organizer.')->middleware('auth')->group(function () {
-
-    // My events
-    Route::get('events', [OrganizerEventController::class, 'myEvents'])->name('events.index');
-    Route::get('events/status/{status}', [OrganizerEventController::class, 'status'])->name('events.status');
-    Route::get('events/{event}/participants', [OrganizerEventController::class, 'participants'])->name('events.participants');
-
     // Approve / Reject registration
     Route::get('registrations/{registration}/approve', [OrganizerEventController::class, 'approveRegistration'])->name('registration.approve');
     Route::get('registrations/{registration}/reject', [OrganizerEventController::class, 'rejectRegistration'])->name('registration.reject');
@@ -188,5 +168,29 @@ Route::prefix('organizer')->name('organizer.')->middleware('auth')->group(functi
     // **All registrations index**
     Route::get('registrations', [OrganizerEventController::class, 'allRegistrations'])->name('registrations.index');
 });
+use App\Http\Controllers\CertificateController;
+
+// Organizer generates certificates
+Route::get('/admin/events/{id}/generate-certificates', [CertificateController::class, 'generate'])
+    ->middleware(['auth'])
+    ->name('certificates.generate');
+
+// Participant downloads certificate
+Route::get('/dashboard/download-certificate', [CertificateController::class, 'download'])
+    ->middleware('auth')
+    ->name('certificates.download');
+// routes/web.php
+Route::get('/organizer/events', [OrganizerEventController::class, 'index'])->name('organizer.events.index');
+// routes/web.php
+
+use App\Http\Controllers\Admin\ReportController;
+
+Route::prefix('admin')->middleware(['auth'])->group(function () {
+    Route::get('reports/event-participants/{eventId}', [ReportController::class, 'eventParticipants']);
+    Route::get('reports/feedbacks', [ReportController::class, 'feedbacks']);
+    Route::get('reports/user-growth', [ReportController::class, 'userGrowth']);
+});
+Route::get('/organizer/events/report', [OrganizerEventController::class, 'report'])
+     ->name('organizer.events.report');
 
 require __DIR__.'/auth.php';

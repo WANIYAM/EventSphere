@@ -295,7 +295,7 @@
                                                 <span class="pcoded-mtext">All My Events</span>
                                             </a>
                                         </li>
-                                        <li class="{{ request()->is('organizer/events/pending') ? 'active' : '' }}">
+                                        {{-- <li class="{{ request()->is('organizer/events/pending') ? 'active' : '' }}">
                                             <a href="{{ route('organizer.events.pending') }}"
                                                 class="waves-effect waves-dark">
                                                 <span class="pcoded-mtext">Pending Events</span>
@@ -318,7 +318,7 @@
                                                 class="waves-effect waves-dark">
                                                 <span class="pcoded-mtext">Canceled Events</span>
                                             </a>
-                                        </li>
+                                        </li> --}}
                                     </ul>
                                 </li>
 
@@ -351,12 +351,13 @@
                                     </a>
                                 </li>
 
-                                <li class="{{ request()->is('organizer/reports*') ? 'active' : '' }}">
-                                    <a href="#" class="waves-effect waves-dark">
+                                <li class="{{ request()->is('organizer/events/report*') ? 'active' : '' }}">
+                                    <a href="{{ route('organizer.events.report') }}" class="waves-effect waves-dark">
                                         <span class="pcoded-micon"><i class="ti-bar-chart"></i></span>
                                         <span class="pcoded-mtext">Reports</span>
                                     </a>
                                 </li>
+
                             </ul>
                         </div>
                     </nav>

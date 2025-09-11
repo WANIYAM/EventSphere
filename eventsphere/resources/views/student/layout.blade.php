@@ -283,7 +283,8 @@
                                 </li>
 
                                 <li>
-                                    <a href="{{ route('student.my-registrations') }}" class="waves-effect waves-dark">
+                                    <a href="{{ route('student.my-registrations') }}"
+                                        class="waves-effect waves-dark">
                                         <span class="pcoded-micon"><i class="ti-list"></i></span>
                                         <span class="pcoded-mtext" data-i18n="nav.events.my">My Registrations</span>
                                         <span class="pcoded-mcaret"></span>
@@ -291,11 +292,14 @@
                                 </li>
 
                                 <li class="">
-                                    <a href="index.html" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Certificates</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
+                                    <@if (session('error'))
+                                        <div class="alert alert-danger">{{ session('error') }}</div>
+                                        @endif
+
+                                        <a href="{{ route('certificates.download') }}" class="btn btn-primary">
+                                            Download Your Certificate
+                                        </a>
+
                                 </li>
                                 <li class="">
                                     <a href="index.html" class="waves-effect waves-dark">

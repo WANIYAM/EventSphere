@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Http\Request;
 
 use App\Models\Event;
 use App\Models\Registration;
@@ -18,7 +19,7 @@ class OrganizerEventController extends Controller
         ->orderBy('date', 'asc')
         ->get();
 
-        return view('organizer.events.my-events', compact('events'));
+        return view('organizer.events.index', compact('events'));
     }
 
     // Filter events by status
@@ -36,7 +37,7 @@ class OrganizerEventController extends Controller
         ->orderBy('date', 'asc')
         ->get();
 
-        return view('organizer.events.my-events', compact('events', 'status'));
+        return view('organizer.events.index', compact('events', 'status'));
     }
 
     // Show participants of a specific event
@@ -81,11 +82,22 @@ class OrganizerEventController extends Controller
         return back()->with('success', 'Registration rejected!');
     }
     // / Show all events
-    public function index()
-    {
-        $events = Event::where('organizer_id', auth()->id())->get();
-        return view('organizer.events.index', compact('events'));
+   public function index(Request $request)
+{
+    $query = Event::withCount(['registrations as confirmed_count' => function ($q) {
+        $q->where('status', 'confirmed');
+    }])
+    ->where('organizer_id', Auth::id());
+
+    // Filter by status if provided
+    if ($request->filled('status') && in_array($request->status, ['pending','approved','rejected','canceled'])) {
+        $query->where('status', $request->status);
     }
+
+    $events = $query->orderBy('date', 'asc')->get();
+
+    return view('organizer.events.index', compact('events'));
+}
 
     // Pending events
     public function pending()
@@ -187,6 +199,22 @@ public function allRegistrations()
         ->get();
 
     return view('organizer.registrations.index', compact('registrations'));
+}
+public function report(Request $request)
+{
+    $query = Event::withCount(['registrations as confirmed_count' => function ($q) {
+        $q->where('status', 'confirmed');
+    }])
+    ->where('organizer_id', Auth::id());
+
+    // Filter by status if selected
+    if ($request->filled('status') && in_array($request->status, ['pending','approved','rejected','canceled'])) {
+        $query->where('status', $request->status);
+    }
+
+    $events = $query->orderBy('date', 'asc')->get();
+
+    return view('organizer.events.report', compact('events'));
 }
 
 }

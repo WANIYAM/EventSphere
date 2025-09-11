@@ -110,4 +110,26 @@ class EventController extends Controller
         $event->update(['status' => 'rejected']);
         return redirect()->route('events.index')->with('success', 'Event rejected.');
     }
+    public function generateCertificates($eventId)
+{
+    $event = Event::findOrFail($eventId);
+    $registrations = Registration::where('event_id', $eventId)->get();
+
+    foreach ($registrations as $participant) {
+        $pdf = Pdf::loadView('certificate', [
+            'participant' => $participant,
+            'event' => $event
+        ]);
+
+        // Save PDF in storage/app/certificates
+        $fileName = 'certificates/' . $participant->id . '.pdf';
+        Storage::put($fileName, $pdf->output());
+
+        // Update registration with path
+        $participant->certificate_path = $fileName;
+        $participant->save();
+    }
+
+    return redirect()->back()->with('success', 'Certificates generated successfully!');
+}
 }
