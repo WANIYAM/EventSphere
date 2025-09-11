@@ -131,12 +131,15 @@ Route::get('student/feedback/{event}/peer', [FeedbackController::class, 'peerRev
 
 Route::middleware(['auth'])->prefix('admin')->group(function() {
     Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
+
+    // Admin events routes
+    Route::get('/events/{id}/participants', [AdminEventController::class, 'participants'])->name('admin.events.participants');
 });
 // routes/web.php
 
 
 Route::prefix('organizer')->name('organizer.')->middleware('auth')->group(function () {
-    
+
     // Resource routes for CRUD
     Route::resource('events', OrganizerEventManagementController::class);
 
